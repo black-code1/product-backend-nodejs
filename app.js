@@ -1,8 +1,19 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const app = express();
 
-const bodyParser = require('body-parser');
+const dbURI = 'mongodb+srv://legrand:legrand@cluster0.jgecv.mongodb.net/test?retryWrites=true&w=majority';
+
+mongoose.connect(dbURI,{ useNewUrlParser: true,
+  useUnifiedTopology: true })
+.then((resultat) => console.log('Connexion à MongoDB réussie !'))
+.catch((erreur) => console.log(erreur));
+
+
+
+
 
 //app.use((req, res) => {
 //  res.json({message: 'Votre requête a bien été reçue !'});
@@ -81,3 +92,4 @@ module.exports = app;
 
 
 // Package body-parser pour extraire l'objet JSON de la demande frontend
+// Package mongoose facilite les interactions avec notre base de données MongoDB grâce à des fonctions extrêmement utiles
