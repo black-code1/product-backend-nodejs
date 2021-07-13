@@ -78,6 +78,13 @@ app.put('/api/stuff/:id', (req, res, next) => {
       .then(() => res.status(200).json({ message: 'Objet modifié !' }))
       .catch(error => res.status(400).json({ error }));
 })
+
+app.delete('/api/stuff/:id', (req, res, next) => {
+  Thing
+      .deleteOne({_id : req.params.id})
+      .then(() => res.status(200).json({ message: 'Objet modifié !'}))
+      .catch(error => res.status(400).json({ error }));
+})
 app.get('/api/stuff/:id', (req, res, next) => {
   Thing
       .findOne({ _id: req.params.id })
