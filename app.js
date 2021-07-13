@@ -2,6 +2,8 @@ const express = require('express');
 
 const app = express();
 
+const bodyParser = require('body-parser');
+
 //app.use((req, res) => {
 //  res.json({message: 'Votre requête a bien été reçue !'});
 //});
@@ -41,6 +43,16 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
+// définissez sa fonction json comme middleware global pour votre application,
+app.use(bodyParser.json());
+
+app.post('/api/stuff', (req, res, next) => {
+  console.log(req.body);
+  res.status(201).json({
+    message: 'Objet créé !'
+  });
+});
 //use : nous lui passons un string, correspondant à la route pour laquelle nous souhaitons enregistrer cet élément de middleware.
 app.use('/api/stuff', (req, res, next) => {
   const stuff = [
@@ -64,4 +76,8 @@ app.use('/api/stuff', (req, res, next) => {
   res.status(200).json(stuff);
 });
 
+
 module.exports = app;
+
+
+// Package body-parser pour extraire l'objet JSON de la demande frontend
