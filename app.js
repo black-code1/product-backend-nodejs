@@ -1,52 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const stuffRoutes = require('./routes/stuff');
 
-app.use('/api/stuff', stuffRoutes);
+// importation du route
+const stuffRoutes = require('./routes/stuff');
+const userRoutes = require('./routes/user');
 
 
 const dbURI = 'mongodb+srv://legrand:legrand@cluster0.jgecv.mongodb.net/test?retryWrites=true&w=majority';
 
+// connection à la base de donnée mongodb
 mongoose.connect(dbURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-  .then((resultat) => console.log('Connexion à MongoDB réussie !'))
+  .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch((erreur) => console.log(erreur));
 
 const app = express();
-
-
-
-
-//app.use((req, res) => {
-//  res.json({message: 'Votre requête a bien été reçue !'});
-//});
-
-// Elément de middleware N° : enregistre « Requête reçue ! » dans la console et passe l'exécution 
-/*app.use((req, res, next) => {
-  console.log('Requêt reçue !');
-  next();
-});*/
-
-// Elément de middleware N°2 : ajoute un code d'état 201 à la réponse et passe l'exécution 
-/*app.use((req, res, next) => {
-  res.status(201);
-  next();
-});*/
-
-// Elément de middleware N°3 : envoie la réponse JSON et passe l'exécution
-/*app.use((req, res, next) => {
-  res.json({message: 'Votre requête a bien été reçue !'});
-  // next permet à chaque middleware de passer l'exécution au middleware suivant
-  next();
-});*/
-
-// Elément de middleware N°4 : enregistre « Réponse envoyée avec succès ! » dans la console
-/*app.use((req, res) => {
-  console.log('Réponse evoyée avec succès !');
-});*/
 
 // Problème de CORS
 app.use((req, res, next) => {
@@ -63,6 +34,9 @@ app.use((req, res, next) => {
 // définissez sa fonction json comme middleware global pour votre application,
 app.use(bodyParser.json());
 
+// enregistrement des route attendu par le frontend dans l'application
+app.use('/api/stuff', stuffRoutes);
+app.use('/api/auth', userRoutes);
 
 
 module.exports = app;
