@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+// donner accès au chemin de notre système de fichier
+const path = require('path');
 // importation du route
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
@@ -34,6 +35,8 @@ app.use((req, res, next) => {
 // définissez sa fonction json comme middleware global pour votre application,
 app.use(bodyParser.json());
 
+// Creation d'un middleware servant un dossier statique
+app.use('/images', express.static(path.join(__dirname, 'images')));
 // enregistrement des route attendu par le frontend dans l'application
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/auth', userRoutes);
